@@ -173,7 +173,7 @@ def ks():
 
         # worked
         values = [{k:v} for k, v in message.items()]
-        #yield json.dumps(values, indent=4)
+        yield json.dumps(values, indent=4)
         # worked
 
         #extracttweetfeatures(tweets, output)
@@ -201,5 +201,5 @@ if __name__ == "__main__":
         # group_id='my-group',
         value_deserializer=lambda x: loads(x.decode('utf-8')))
 
-   #app.run(host="0.0.0.0", port=6000)
-    ks()
+    app.run(host="0.0.0.0", port=6000)
+    #ks()
