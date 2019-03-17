@@ -171,8 +171,12 @@ def ks():
         # yield (message['full_text']) # worked
         # print(type(message))
 
+        values = message
+        values.pop("display_text_range", None)
+        values.pop("retweeted_status", None)
+
         # worked
-        values = [{k:v} for k, v in message.items()]
+        values = [{k:v} for k, v in values.items()]
         yield json.dumps(values, indent=4)
         # worked
 
