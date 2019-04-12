@@ -2,10 +2,7 @@ from __future__ import absolute_import, print_function
 from tweepy.streaming import StreamListener
 from tweepy import OAuthHandler
 from tweepy import Stream
-from kafka import KafkaProducer
-#from kafka.client import KafkaClient
 from kafka.client import SimpleClient
-from kafka.consumer import SimpleConsumer
 from kafka.producer import SimpleProducer
 import json
 # import urllib2
@@ -17,16 +14,15 @@ import json
 
 #  print(movienames)
 #### sample data -
-#movienames=[u'#moana', u'#doctorstrange', u'#allied', u'#arrivalmovie', u'#badsanta2', u'#almostchristmasmovie', u'#assassinscreed', u'#collateralbeauty', u'#fantasticbeastsandwheretofindthem', u'#jackie', u'#lalaland', u'#passengers', u'#rogueonestarwarsstory', u'#sing']
-tagsToSearch = [u'#aszoqeh']#[u'#CambMA']
+# movienames=[u'#moana', u'#doctorstrange', u'#allied', u'#arrivalmovie', u'#badsanta2', u'#almostchristmasmovie', u'#assassinscreed', u'#collateralbeauty', u'#fantasticbeastsandwheretofindthem', u'#jackie', u'#lalaland', u'#passengers', u'#rogueonestarwarsstory', u'#sing']
+
+tagsToSearch = [u'#CambMA'] #[u'#aszoqeh']#
 
 
 # SimpleClient and SimpleProducer are deprecated, change them later if you can
 client = SimpleClient('kafka:9092')
 producer = SimpleProducer(client)
-# Create a producer to write json messages to kafka
-# producer = KafkaProducer(bootstrap_servers=['kafka:9092'], # default is localhost:9092
-    # value_serializer=lambda v: json.dumps(v).encode('utf-8'))
+
 
 f = open('tweet_streaming.dat','w')
 

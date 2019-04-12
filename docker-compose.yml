@@ -5,6 +5,8 @@ services:
     container_name: zookeeper
     ports:
     - "2181:2181"
+    networks:
+      - kafka-net
   kafka:
     image: wurstmeister/kafka
     ports:
@@ -17,21 +19,55 @@ services:
       KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
+    networks:
+      - kafka-net
+
   producer:
-    image: ksolaima/twitter-kafka
+    image: ksolaima/kafka-producer
     command: python extract_tweets_restful.py
-    #stdin_open: true
-    #tty: true
+    container_name: producer-restful
+    stdin_open: true
+    tty: true
+    restart: on-failure
     ports:
     - "5000"
+    networks:
+      - kafka-net
     depends_on:
     - kafka
-  #consumer:
-    #image: ksolaima/kafka-consumer
-    ##ports:
-    ##- "6000"
-    #depends_on:
-    #- kafka
-    #- producer
-    #stdin_open: true
-    #tty: true
+    - zookeeper
+
+  producer_stream:
+    image: ksolaima/kafka-producer-stream
+    command: python extract_tweets_streaming.py
+    container_name: producer-streaming
+    stdin_open: true
+    tty: true
+    restart: on-failure
+    ports:
+    - "5050"
+    networks:
+      - kafka-net
+    depends_on:
+    - kafka
+    - zookeeper
+
+  consumer:
+    image: ksolaima/kafka-consumer
+    command: python simple_Kafka_consumer.py
+    container_name: consumer
+    restart: on-failure
+    ports:
+    - "8000:6000"
+    networks:
+      - kafka-net
+    depends_on:
+    - kafka
+    - zookeeper
+    - producer
+    - producer_stream
+
+networks:
+  kafka-net:
+
+
