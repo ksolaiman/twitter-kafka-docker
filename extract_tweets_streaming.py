@@ -31,12 +31,13 @@ exec(compile(open("app_tags.py", "r").read(), "app_tags.py", 'exec'))
 #### sample data -
 # movienames=[u'#moana', u'#doctorstrange', u'#allied', u'#arrivalmovie', u'#badsanta2', u'#almostchristmasmovie', u'#assassinscreed', u'#collateralbeauty', u'#fantasticbeastsandwheretofindthem', u'#jackie', u'#lalaland', u'#passengers', u'#rogueonestarwarsstory', u'#sing']
 
-tags = data['tag'][0]
+tagsToSearch = data['tag'][0]
 
-tagsToSearch = "[u'" + "', u'".join(tags) + "']"
+# Reason it was giving wrong tweets was you were making string with u, but that's u from unicode, so just the joined
+# tags separated by comma is enough, don't need next line
+# WRONG : tagsToSearch = "['" + "', '".join(tags) + "']"
 
-# tagsToSearch = [u'#CambMA'] #[u'#aszoqeh']#
-
+# tagsToSearch = [u'#aszoqeh', u'#moana']#[u'#CambMA'] #
 
 # SimpleClient and SimpleProducer are deprecated, change them later if you can
 # client = SimpleClient(os.environ['HOSTNAME']+":"+os.environ['PORT'])
@@ -83,6 +84,7 @@ class StdOutListener(StreamListener):
         # if file not found, tweet is new, write to file + Kafka + in dictionary file
         except FileNotFoundError:
             tweet_json = json.dumps(data, indent=4)
+            print(tweet_json)
             with open(parent_directory + tweet_id_str + ".json", "w") as jf:
                 jf.write(tweet_json)
             input("wait")
