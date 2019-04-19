@@ -21,6 +21,6 @@ WORKDIR /tmp/
 VOLUME [ "/data", "/logs" ]
  
 # start app
-CMD [ "python", "./simple_Kafka_consumer.py" ]
+CMD [ "python", "./simple_Kafka_consumer.py", "echo ${ENV1}" ]
 
 
