@@ -11,6 +11,7 @@ import os
 from ast import literal_eval
 import json
 from kafka import KafkaProducer
+import tweepy
 
 def jsonify(data):
     try:
@@ -138,6 +139,23 @@ if __name__ == '__main__':
     auth = OAuthHandler(config["consumer_key"], config["consumer_secret"])
     auth.set_access_token(config["access_token"], config["access_token_secret"])
 
-    stream = Stream(auth, listener)
-    stream.filter(track=tagsToSearch,languages=["en"])
+    user_ids = None
+    if os.environ['type'] == "follow":
+        # Follow takes A comma separated list of user IDs as param, but we have screen_name, so we have to convert them to IDs
+        api = tweepy.API(auth, wait_on_rate_limit=True, wait_on_rate_limit_notify=True, compression=True)
+        # https://developer.twitter.com/en/docs/api-reference-index (Twitter's own api which is implemented by tweepy below url)
+        # https: // github.com / tweepy / tweepy / blob / 80015db395bdd19700390ed5d0742c7b6d5996d2 / tweepy / api.py  # L311
+        user_objects = api.lookup_users(screen_names=tagsToSearch)
+        user_ids = [user.id_str for user in user_objects]
+        print(user_ids)
 
+    stream = Stream(auth, listener)
+    # API details - https://developer.twitter.com/en/docs/tweets/filter-realtime/api-reference/post-statuses-filter.html
+    # More details - https://developer.twitter.com/en/docs/tweets/filter-realtime/guides/basic-stream-parameters
+    try:
+        if os.environ['type'] == "follow":
+            stream.filter(follow=user_ids,languages=["en"])
+        elif os.environ['type'] == "track":
+            stream.filter(track=tagsToSearch,languages=["en"])
+    except:
+        stream.filter(track=tagsToSearch, languages=["en"])

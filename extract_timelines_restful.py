@@ -60,7 +60,11 @@ i=0
 for name in screen_names:
 	print(name)
 	status_cursor = tweepy.Cursor(api.user_timeline, screen_name=name, count=200, tweet_mode='extended')
-	status_list = status_cursor.iterator.next()
+	try:
+		status_list = status_cursor.iterator.next()
+	except tweepy.error.TweepError:
+		# if protected user - Twitter error response: status code = 401
+		continue
 
 	n_max = float('+inf')
 	n_min = float('-inf')
