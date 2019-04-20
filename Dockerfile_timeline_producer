@@ -1,0 +1,29 @@
+# base image
+FROM python:3-onbuild
+
+# specify the port number the container should expose
+EXPOSE 5000
+
+ARG var_name
+ENV hashtag_file=$var_name
+
+# add python files to run
+# the / at the end is the WORKDIR
+# ADD config.py /
+# ADD extract_tweets_restful.py /
+COPY config.py app_tags.py extract_timelines_restful.py requirements.txt /tmp/
+COPY $hashtag_file /tmp/
+
+# COPY requirements.txt /
+WORKDIR /tmp/
+
+# Run commands for installing packages
+# RUN pip install pkg_name
+# RUN pip install -r requirements.txt
+
+VOLUME [ "/data", "/logs" ]
+ 
+# start app
+CMD [ "python", "./extract_timelines_restful.py" ]
+
+
