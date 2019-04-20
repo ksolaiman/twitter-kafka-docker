@@ -95,7 +95,7 @@ class StdOutListener(StreamListener):
 
             # Write into dictionary file
             # tweet_id - type - user_screen_name
-            with open(parent_directory + 'tweet_streaming.dat', 'w') as f:
+            with open(parent_directory + 'tweet_streaming.dat', 'a+') as f:
                 f.write(tweet_id_str)
                 retweeted = False
                 quoted = False

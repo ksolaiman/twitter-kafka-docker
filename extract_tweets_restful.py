@@ -58,9 +58,9 @@ parent_directory = '/data/'
 
 i=0
 # Search tweets by keyword API - api.search, param q is keyword, q=#[hashtag_phrase]
+# https://developer.twitter.com/en/docs/tweets/search/api-reference/get-search-tweets.html
 # 100 is the limit API can read at a time from a search
-status_cursor = tweepy.Cursor(api.search, q=tagsToSearch, result_type='recent', lang='en', count=100,
-							  tweet_mode='extended')
+status_cursor = tweepy.Cursor(api.search, q=tagsToSearch, result_type='recent', lang='en', count=100, tweet_mode='extended')
 search_results = status_cursor.iterator.next()
 
 n_max = float('+inf')
@@ -100,7 +100,7 @@ for i in range(num_of_tweets):
 
 			# Write into dictionary file
 			# tweet_id - type - user_screen_name
-			with open(parent_directory+'tweet_restful.dat','w') as f:
+			with open(parent_directory+'tweet_restful.dat','a+') as f:
 				f.write(tweet_id_str)
 				retweeted = False
 				quoted = False
