@@ -57,7 +57,7 @@ parent_directory = '/data/'
 # f = open(parent_directory+'tweet_restful.dat','w')
 
 i=0
-# Search tweets by hastag
+# Search tweets by keyword API - api.search, param q is keyword, q=#[hashtag_phrase]
 # 100 is the limit API can read at a time from a search
 status_cursor = tweepy.Cursor(api.search, q=tagsToSearch, result_type='recent', lang='en', count=100,
 							  tweet_mode='extended')
