@@ -20,6 +20,7 @@ docker run --rm --network kafka-net ches/kafka kafka-topics.sh --create --topic 
 #docker run --rm -it --interactive --network kafka-net ches/kafka kafka-console-producer.sh --topic test --broker-list kafka:9092
 #docker run --rm -it --network kafka-net ches/kafka kafka-console-consumer.sh --topic test --from-beginning --bootstrap-server kafka:9092
 
+# << --MULTILINE-COMMENT--
 # https://vsupalov.com/docker-build-pass-environment-variables/
 docker build \
 --build-arg var_name='tags.txt' \
@@ -41,6 +42,7 @@ docker run --rm -it --network kafka-net \
 -e access_token_secret=L6O2hoZpzxUUBnqvZ5Qn1OAo2Jmdfo5pUzpdwPRoaVEMg \
 -v "$(pwd)"/data:/data \
 ksolaima/kafka-producer
+#--MULTILINE-COMMENT--
 
 docker build \
 --build-arg var_name='tags.txt' \
