@@ -42,6 +42,7 @@ docker run --rm -it --network kafka-net \
 -e access_token_secret=L6O2hoZpzxUUBnqvZ5Qn1OAo2Jmdfo5pUzpdwPRoaVEMg \
 -v "$(pwd)"/data:/data \
 ksolaima/kafka-producer
+--MULTILINE-COMMENT--
 
 docker build \
 --build-arg var_name='tags.txt' \
@@ -85,7 +86,7 @@ docker run --rm -it --network kafka-net \
 -e access_token_secret=L6O2hoZpzxUUBnqvZ5Qn1OAo2Jmdfo5pUzpdwPRoaVEMg \
 -v "$(pwd)"/data:/data \
 ksolaima/kafka-timeline-producer
---MULTILINE-COMMENT--
+
 
 docker build \
 --build-arg var_name='screen_names.txt' \

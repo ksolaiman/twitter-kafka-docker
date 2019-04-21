@@ -91,7 +91,7 @@ for i in range(num_of_tweets):
 			tweet_json = json.dumps(tweet._json, indent=4)
 			with open(parent_directory + tweet_id_str + ".json", "w") as jf:
 				jf.write(tweet_json)
-			input("wait")
+			# input("wait")
 			try:
 				# producer.send('Twitter', tweet._json)
 				producer.send(os.environ['TOPIC'], tweet._json)
