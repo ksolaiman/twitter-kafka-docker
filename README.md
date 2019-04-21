@@ -12,7 +12,7 @@
 
 - Install docker
 - TWITTER setup
-* Create an app on https://apps.twitter.com/ and then create auth tokens
+Create an app on https://apps.twitter.com/ and then create auth tokens. These will be used as environment variables for the producers.
 
 
 ## Usage
