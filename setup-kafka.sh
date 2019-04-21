@@ -89,7 +89,7 @@ ksolaima/kafka-timeline-producer
 
 docker build \
 --build-arg var_name='screen_names.txt' \
---file Dockerfile_stream_producer -t ksolaima/kafka-producer-stream .
+--file Dockerfile_stream_producer -t ksolaima/kafka-producer-timeline-stream .
 
 docker run --rm \
 -it \
@@ -104,4 +104,4 @@ docker run --rm \
 -e access_token=737852660183932928-QiW3dDWxkfru7A3DbdlFfuLItcBkl8J \
 -e access_token_secret=xkHpXx0zuooAJq8G2clPA9NymZEndtPDxDdsu3OzXqRyz \
 -v "$(pwd)"/data:/data \
-ksolaima/kafka-producer-stream
+ksolaima/kafka-producer-timeline-stream

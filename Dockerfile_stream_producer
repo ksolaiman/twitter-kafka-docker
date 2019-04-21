@@ -11,7 +11,7 @@ ENV hashtag_file=$var_name
 # the / at the end is the WORKDIR
 # ADD config.py /
 # ADD extract_tweets_restful.py /
-COPY config.py app_tags.py extract_tweets_streaming.py requirements2.txt /tmp/
+COPY config.py app_tags.py extract_tweets_streaming.py requirements.txt /tmp/
 COPY $hashtag_file /tmp/
 
 # COPY requirements.txt /

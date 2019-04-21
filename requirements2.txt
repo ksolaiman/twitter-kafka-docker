@@ -1,4 +1,0 @@
-tweepy==3.4.0
-kafka-python==1.4.4
-pandas==0.24.1
-Flask==0.10.1
