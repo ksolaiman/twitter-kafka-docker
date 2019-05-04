@@ -13,6 +13,10 @@ ches/kafka
 #-v "$(pwd)"/kafka/data:/data \
 #-v "$(pwd)"/kafka/logs:/logs \
 
+
+# docker run --rm --network kafka-net ches/kafka kafka-topics.sh --create --topic Twitter --replication-factor 1 \
+# --partitions 1 --zookeeper zookeeper:2181
+# https://community.hortonworks.com/questions/102132/run-multiple-broker-versions-in-the-same-cluster.html
 docker run --rm --network kafka-net ches/kafka kafka-topics.sh --create --topic Twitter --replication-factor 1 \
 --partitions 1 --zookeeper zookeeper:2181
 
@@ -20,7 +24,7 @@ docker run --rm --network kafka-net ches/kafka kafka-topics.sh --create --topic 
 #docker run --rm -it --interactive --network kafka-net ches/kafka kafka-console-producer.sh --topic test --broker-list kafka:9092
 #docker run --rm -it --network kafka-net ches/kafka kafka-console-consumer.sh --topic test --from-beginning --bootstrap-server kafka:9092
 
-<< --MULTILINE-COMMENT--
+
 # https://vsupalov.com/docker-build-pass-environment-variables/
 docker build \
 --build-arg var_name='tags.txt' \
@@ -42,8 +46,9 @@ docker run --rm -it --network kafka-net \
 -e access_token_secret=L6O2hoZpzxUUBnqvZ5Qn1OAo2Jmdfo5pUzpdwPRoaVEMg \
 -v "$(pwd)"/data:/data \
 ksolaima/kafka-producer
---MULTILINE-COMMENT--
 
+
+<< --MULTILINE-COMMENT--
 docker build \
 --build-arg var_name='tags.txt' \
 --file Dockerfile_stream_producer -t ksolaima/kafka-producer-stream .
@@ -61,11 +66,18 @@ docker run --rm \
 -e access_token_secret=xkHpXx0zuooAJq8G2clPA9NymZEndtPDxDdsu3OzXqRyz \
 -v "$(pwd)"/data:/data \
 ksolaima/kafka-producer-stream
+--MULTILINE-COMMENT--
 
 docker build -f Dockerfile -t ksolaima/kafka-consumer .
-docker run --rm -it -p 8000:6000 --network kafka-net ksolaima/kafka-consumer
+docker run --rm -it -p 8000:6000 --network kafka-net \
+-e TOPIC=Twitter \
+-e HOSTNAME=kafka \
+-e PORT=9092 \
+-e offset='earliest' \
+-e auto_commit=True \
+ksolaima/kafka-consumer
 
-
+<< --MULTILINE-COMMENT--
 docker build \
 --build-arg var_name='screen_names.txt' \
 -f Dockerfile_timeline_producer -t ksolaima/kafka-timeline-producer .
@@ -106,3 +118,4 @@ docker run --rm \
 -e access_token_secret=xkHpXx0zuooAJq8G2clPA9NymZEndtPDxDdsu3OzXqRyz \
 -v "$(pwd)"/data:/data \
 ksolaima/kafka-producer-timeline-stream
+--MULTILINE-COMMENT--

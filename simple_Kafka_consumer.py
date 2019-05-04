@@ -5,6 +5,7 @@ import re
 # from textprocessing import preprocessing
 # from django.utils.encoding import smart_str
 from flask import Flask, render_template, Response, json
+import os
 
 app = Flask(__name__)
 
@@ -20,7 +21,7 @@ def ks(consumer):
         output = []
         message = message.value
         output.append(message)
-        print('{} added'.format(message))
+        # print('{} added'.format(message))
 
         # yield (message['full_text']) # worked
         # print(type(message))
@@ -57,11 +58,11 @@ def ks(consumer):
 
 if __name__ == "__main__":
     consumer = KafkaConsumer(
-        'Twitter',
-        bootstrap_servers=['kafka:9092'],  # ['192.168.1.4:9092'], #
-        auto_offset_reset='earliest',
-        enable_auto_commit=True,
-        # group_id='my-group',
+        os.environ['TOPIC'],
+        bootstrap_servers=["" + os.environ['HOSTNAME'] + ":" + os.environ['PORT'] + ""], # bootstrap_servers=['kafka:9092'],  # ['192.168.1.4:9092'], #
+        auto_offset_reset=os.environ['offset'], # 'earliest'/'latest',
+        enable_auto_commit=os.environ['auto_commit'], # True/False
+        group_id='twitter',
         value_deserializer=lambda x: loads(x.decode('utf-8')))
 
     # app.run(host="0.0.0.0", port=6000)
